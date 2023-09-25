@@ -23,7 +23,7 @@ type Rental struct {
 	Lat             float64
 	Lng             float64
 	PrimaryImageURL string
-	User            User `gorm:"foreignkey:UserID"` // Define a foreign key relationship with the User table
+	User            User
 }
 
 type Location struct {

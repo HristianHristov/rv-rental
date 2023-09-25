@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"os"
 	"rv-rentals/config"
 	"rv-rentals/internal/controllers"
 
@@ -8,8 +10,16 @@ import (
 )
 
 func main() {
-	// Define the database configuration
-	dsn := "host=localhost user=root password=root dbname=testingwithrentals port=5434 sslmode=disable"
+
+	// Define the database configuration using environment variables
+	dbHost := os.Getenv("DBHOST")
+	dbUser := os.Getenv("DBUSER")
+	dbPassword := os.Getenv("DBPASSWORD")
+	dbName := os.Getenv("DBNAME")
+	dbPort := os.Getenv("DBPORT")
+
+	// Construct the DSN
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUser, dbPassword, dbName, dbPort)
 
 	// Create a new Database instance
 	db, err := config.NewDatabase(dsn)
@@ -24,14 +34,8 @@ func main() {
 	rentalController := controllers.NewRentalHandler(db)
 
 	// Define your routes
-	api := router.Group("/api")
-
-	// Define routes related to rentals
-	rentals := api.Group("/rentals")
-	{
-		rentals.GET("/:id", rentalController.GetRentalByID)
-		rentals.GET("/", rentalController.GetRentals)
-	}
+	router.GET("/api/rentals", rentalController.GetRentals)
+	router.GET("/api/rentals/:id", rentalController.GetRentalByID)
 
 	// Start the server
 	router.Run(":8081")

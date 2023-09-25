@@ -1,6 +1,8 @@
 package config
 
 import (
+	"rv-rentals/internal/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -12,7 +14,7 @@ func NewDatabase(dsn string) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	// db.AutoMigrate(models.User{}, models.Rental{})
+	db.AutoMigrate(models.User{}, models.Rental{})
 
 	return db, nil
 }

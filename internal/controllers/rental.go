@@ -49,6 +49,7 @@ func (rh *rentalHandler) GetRentalByID(c *gin.Context) {
 func (rh *rentalHandler) GetRentals(c *gin.Context) {
 	// Parse query parameters from the request
 	var queryParams query.RentalQueryParams
+
 	if err := c.ShouldBindQuery(&queryParams); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid query parameters"})
 		return
@@ -59,7 +60,7 @@ func (rh *rentalHandler) GetRentals(c *gin.Context) {
 
 	// Execute the query to fetch rentals
 	var rentals []models.Rental
-	if err := query.Find(&rentals).Error; err != nil {
+	if err := query.Debug().Preload("User").Find(&rentals).Error; err != nil {
 		c.JSON(500, gin.H{"error": "Failed to fetch rentals"})
 		return
 	}
