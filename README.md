@@ -14,7 +14,7 @@ Before you begin, make sure you have the following installed on your system:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/rv-rentals-app.git
+   git clone https://github.com/HristianHristov/rv-rental.git
    cd rv-rentals-app
    ```
 
